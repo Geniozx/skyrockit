@@ -3,11 +3,13 @@ dotenv.config();
 const express = require("express");
 const app = express();
 
-
 const mongoose = require("mongoose");
 const methodOverride = require("method-override");
 const morgan = require("morgan");
 const session = require('express-session');
+
+const isSignedIn = require('./middleware/is-signed-in.js');
+const passUserToView = require('./middleware/pass-user-to-view.js');
 
 // Set the port from environment variable or default to 3000
 const port = process.env.PORT ? process.env.PORT : "3000";
@@ -33,14 +35,18 @@ app.use(session({
   })
 );
 
-app.get("/", async (req, res) => {
-    res.render('index.ejs', {
-        user: req.session.user,
-    });
+app.use(passUserToView); // use new passUserToView middleware here 
+// passes user info to an EJS template
+
+app.get('/', (req, res) => { //home page
+  res.render('index.ejs', {
+    user: req.session.user,
+  });
 });
 
-app.use("/auth", authController);
-
+app.use('/auth', authController); //auth route
+app.use(isSignedIn); // use new isSignedIn middleware here 
+// Setting this one up after log in, so that other routes can be protected 
 
 app.listen(port, () => {
   console.log(`The express app is ready on port ${port}!`);
