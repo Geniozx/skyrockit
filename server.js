@@ -11,6 +11,11 @@ const session = require('express-session');
 const isSignedIn = require('./middleware/is-signed-in.js');
 const passUserToView = require('./middleware/pass-user-to-view.js');
 
+// server.js
+
+const applicationsController = require('./controllers/applications.js'); 
+// importing applications controller into server file
+
 // Set the port from environment variable or default to 3000
 const port = process.env.PORT ? process.env.PORT : "3000";
 const authController = require("./controllers/auth.js");
@@ -47,6 +52,19 @@ app.get('/', (req, res) => { //home page
 app.use('/auth', authController); //auth route
 app.use(isSignedIn); // use new isSignedIn middleware here 
 // Setting this one up after log in, so that other routes can be protected 
+
+// server.js
+
+app.use('/auth', authController);  // link controller to the specific route in server
+//this tells the server that any incoming requests to /user/:userId/applications
+//will be handled by applications controller
+app.use(isSignedIn);
+app.use('/users/:userId/applications', applicationsController); // New!
+
+app.listen(port, () => {
+  console.log(`The express app is ready on port ${port}!`);
+});
+
 
 app.listen(port, () => {
   console.log(`The express app is ready on port ${port}!`);
