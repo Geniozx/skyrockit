@@ -1,4 +1,4 @@
-<!-- views/applications/index.ejs -->
+<!-- applications/index.ejs -->
 
 <!DOCTYPE html>
 <html lang="en">
@@ -8,16 +8,17 @@
     <title>Your Apps</title>
   </head>
   <body>
-      <%- include('../partials/_navbar.ejs') %> 
+    <%- include('../partials/_navbar.ejs') %>
     <h1>Your Apps</h1>
     <a href="/users/<%=user._id%>/applications/new">Add an App</a>
+    <!-- Add the following: -->
     <ul>
-     <li>  
-        <% applications.forEach((application) => { %>
-         <a href="/users/<%= user._id %>/applications/<%= application._id %>">
-        <%= application.title %> at <%= application.company %>
-         </a>
-    </li>
+      <% applications.forEach((application)=>{ %>
+      <!-- Add a link around each application, directing to the 'show' page -->
+    <a href="/users/<%= user._id %>/applications/<%= application._id %>">
+      <%= application.title %> at <%= application.company %>
+    </a>
+  </li>
       <% }) %>
     </ul>
   </body>
