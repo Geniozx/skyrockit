@@ -8,7 +8,15 @@
     <title>Your Apps</title>
   </head>
   <body>
-      <%- include('../partials/_navbar.ejs') %> // add your nav here
+      <%- include('../partials/_navbar.ejs') %> 
     <h1>Your Apps</h1>
+    <a href="/users/<%=user._id%>/applications/new">Add an App</a>
+    <ul>
+      <% applications.forEach((application)=>{ %>
+      <li>
+         <a href="/users/<%= user._id %>/applications/<%= application._id %>">
+         </a><%= application.title %> at <%= application.company %></li>
+      <% }) %>
+    </ul>
   </body>
 </html>

@@ -45,7 +45,7 @@ app.use(passUserToView); // use new passUserToView middleware here
 
 app.get('/', (req, res) => { //home page
   // Check if the user is signed in 
-  if (res.session.user) {
+  if (req.session.user) {
     // Redirect signed-in users to their applications index
     res.redirect(`/users/${req.session.user._id}/applications`)
   } else {
