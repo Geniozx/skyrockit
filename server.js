@@ -47,7 +47,7 @@ app.get('/', (req, res) => { //home page
   // Check if the user is signed in 
   if (res.session.user) {
     // Redirect signed-in users to their applications index
-    res.redirect(`//users/${req.session.user._id}/applications`)
+    res.redirect(`/users/${req.session.user._id}/applications`)
   } else {
     //Show the homepage for users who are not signed in
     res.render('index.ejs');
